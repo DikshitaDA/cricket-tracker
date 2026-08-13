@@ -2,14 +2,20 @@ const express=require("express");
 const cors=require("cors");
 require("dotenv").config();
 
+console.log("API key loaded:", !!process.env.CRICKET_API_KEY);
 
 const connectDB=require("./config/db");
-const {getCurrentMatches}=require("./services/cricketApi");
+const matchRoutes=require("./routes/matchRoutes");
+const {
+    getCurrentMatches,
+    getMatchScorecard
+}=require("./services/cricketApi");
 
 const app=express();
 
 app.use(cors());
 app.use(express.json());
+
 
 app.get("/",(req,res)=>{
     res.json({
@@ -29,6 +35,18 @@ catch(error){
 }
 });
 
+
+app.get("/api/test-scorecard/:matchId", async(req,res)=>{
+    try {
+        const data=await getMatchScorecard(req.params.matchId);
+        res.json(data);
+    }
+    catch(error){
+        res.status(500).json({
+            message:"Failed to fetch match scorecard"
+        });
+    }
+});
 connectDB();
 const PORT=process.env.PORT||5000;
 
