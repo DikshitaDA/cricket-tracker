@@ -6,6 +6,7 @@ console.log("API key loaded:", !!process.env.CRICKET_API_KEY);
 
 const connectDB=require("./config/db");
 const matchRoutes=require("./routes/matchRoutes");
+const playerRoutes=require("./routes/playerRoutes");
 const {
     getCurrentMatches,
     getMatchScorecard
@@ -15,7 +16,9 @@ const app=express();
 
 app.use(cors());
 app.use(express.json());
+
 app.use("/api/matches",matchRoutes);
+app.use("/api/players",playerRoutes);
 
 app.get("/",(req,res)=>{
     res.json({

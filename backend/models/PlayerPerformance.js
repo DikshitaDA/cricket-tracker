@@ -1,31 +1,23 @@
 const mongoose=require("mongoose");
 
-const playerSchema=new mongoose.Schema(
+const playerPerformanceSchema=new mongoose.Schema(
     {
-        apiId: {
-            type: String,
-            required: true,
-            unique: true
-        },
-
-        name: {
+        playerId: {
             type: String,
             required: true
         },
 
-        cricbuzzId: {
-            type: String
+        playerName: {
+            type: String,
+            required: true
         },
 
-        role: {
-            type: String
+        matchId: {
+            type: String,
+            required: true
         },
 
         batting: {
-            matches: {
-                type: Number,
-                default: 0
-            },
             runs: {
                 type: Number,
                 default: 0
@@ -49,10 +41,6 @@ const playerSchema=new mongoose.Schema(
         },
 
         bowling: {
-            matches: {
-                type: Number,
-                default: 0
-            },
             overs: {
                 type: Number,
                 default: 0
@@ -99,10 +87,22 @@ const playerSchema=new mongoose.Schema(
         }
     },
     {
-        timestamps:true
+        timestamps: true
     }
 );
 
+playerPerformanceSchema.index(
+    {
+        playerId:1,
+        matchId:1
+    },
+    {
+        unique:1
+    }
+);
+
+
 module.exports=mongoose.model(
-    "Player",playerSchema
+    "PlayerPerformance",
+    playerPerformanceSchema
 );
