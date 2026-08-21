@@ -11,7 +11,7 @@ const {
     getCurrentMatches,
     getMatchScorecard
 }=require("./services/cricketApi");
-
+const statsRoutes=require("./routes/statsRoutes");
 const app=express();
 
 app.use(cors());
@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use("/api/matches",matchRoutes);
 app.use("/api/players",playerRoutes);
-
+app.use("/api/stats",statsRoutes);
 app.get("/",(req,res)=>{
     res.json({
         message: "Cricket Tracker API is running!"

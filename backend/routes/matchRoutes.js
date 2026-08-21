@@ -110,10 +110,18 @@ router.get("/:matchId",async(req,res)=>{
 router.get("/", async(req,res)=>{
     try{
 
-        const { status } = req.query;
+        const { status,search } = req.query;
 
         let query = {};
 
+
+        if(search){
+            query.name={
+                $regex:search,
+                $options:"i"
+            };
+        }
+        
         if(status==="live"){
             query={
                 matchStarted:true,
